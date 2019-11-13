@@ -8,7 +8,8 @@
 </head>
 <body>
 	<%
-	response.sendRedirect("htgio.jsp");
+	RequestDispatcher rd= request.getRequestDispatcher("htgio.jsp");
+	rd.forward(request, response);
 	%>
 </body>
 </html>

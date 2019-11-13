@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import bean.GioHangBean;
 import bo.GioHangBo;
@@ -33,23 +34,26 @@ public class giohangcontroller extends HttpServlet {
     GioHangBo gh = new GioHangBo();
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try{
+			HttpSession session = request.getSession();
+			response.setCharacterEncoding("utf-8");
+			request.setCharacterEncoding("utf-8");
 			String masach= request.getParameter("ms");
 			String tensach= request.getParameter("ts");
 			String tacgia= request.getParameter("tg");
 			String giatam= request.getParameter("gia");
 			String masach2 = request.getParameter("ms2");
-			String soluongtam = request.getParameter("sl");
+			String soluongtam = request.getParameter("txtsl");
 			if(giatam!=null){
 				long gia= Long.parseLong(giatam);
 				
 				//Kiem tra xem da tao session gh chua
-				if(request.getAttribute("gh")==null){
+				if(session.getAttribute("gh")==null){
 					//Neu chua thi tao 1 session: gh
-					request.setAttribute("gh", gh);
+					session.setAttribute("gh", gh);
 				}
 				
 				//b1: lay session: gh luu vao bien: gh
-				gh=(GioHangBo)request.getAttribute("gh");
+				gh=(GioHangBo)session.getAttribute("gh");
 				
 				//b2: thay doi bien: goi ham Them
 				int k=0;
@@ -77,10 +81,9 @@ public class giohangcontroller extends HttpServlet {
 				gh.Xoa(masach2);
 			}
 			//b3: luu bien gh vao session: gh
-			request.setAttribute("gh", gh);
+			session.setAttribute("gh", gh);
 			//b4: hien thi gio hang: gh
-			RequestDispatcher rd= request.getRequestDispatcher("htgio.jsp");
-			rd.forward(request, response);
+			response.sendRedirect("loading.jsp");
 		}catch(Exception e){
 			e.printStackTrace();
 		}

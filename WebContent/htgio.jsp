@@ -15,7 +15,7 @@
 
 <%
 	long s1=0,tt=0;
-	GioHangBo g1= (GioHangBo)request.getAttribute("gh");
+	GioHangBo g1= (GioHangBo)session.getAttribute("gh");
 	if(g1!=null){
 		s1=g1.ds.size();
 		tt=g1.Tong();
@@ -46,8 +46,8 @@
 					<td></td>
 				</tr>
 			<%
-				if(request.getAttribute("gh")!=null){
-					GioHangBo gh= (GioHangBo)request.getAttribute("gh");
+				if(session.getAttribute("gh")!=null){
+					GioHangBo gh= (GioHangBo)session.getAttribute("gh");
 					for(GioHangBean g:gh.ds){ 
 						g.setThanhtien();
 			%>
@@ -57,8 +57,8 @@
 					<td><%=g.getTacgia() %></td>
 					<td><%=g.getGia() %></td>
 					<td><%=g.getSoluong() %></td>
-					<td><form action="giohangcontroller?ms2=<%=g.getMasach()%>&sl=<%=request.getParameter("sl")%>">
-							<input type="text" name="sl">
+					<td><form action="giohangcontroller?ms2=<%=g.getMasach()%>" method="post">
+							<input type="text" name="txtsl">
 							<button type="submit" class="btn btn-primary">Sửa</button>
 						</form>
 					</td>
